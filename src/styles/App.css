@@ -1,0 +1,96 @@
+body {
+  text-align: center;
+}
+
+h1 {
+  color: blue;
+  text-align: center;
+}
+
+.content {
+  width: 500px;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  overflow: auto;
+  flex-direction: column;
+  text-align: center;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+.modalbackground {
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  opacity: 1;
+}
+
+.btn {
+  min-width: 100px;
+  height: 35px;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  color: black;
+  background-color: olive;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: olivedrab;
+}
+
+.modalWindow {
+  width: 100%;
+  max-width: 500px;
+  margin: 10% auto;
+  padding: 2%;
+  background: antiquewhite;
+  border-radius: 3px;
+}
+
+.submit_ {
+  width: 500px;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  overflow: auto;
+  flex-direction: row;
+  text-align: center;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+label {
+  display: block;
+}
+
+.question {
+  color: black;
+}
+
+.questionTrue {
+  color: green;
+}
+
+.questionFalse {
+  color: red;
+}
+
+.result {
+  color: blue;
+  font-size: 20px;
+}
