@@ -17,11 +17,11 @@ export class TextType extends Component {
   }
 
   onChange = (e) => {
-    const { setAnswer, objQuestion } = this.props;
+    const { setAnswer, objQuestion, type } = this.props;
     this.setState({ inputValue: e.target.value });
     clearTimeout(TextType.timer);
     TextType.timer = setTimeout(() => {
-      setAnswer(this.state.inputValue, objQuestion.id);
+      setAnswer(type, this.state.inputValue, objQuestion.id);
       TextType.timer = '';
     }, 500);
   };
@@ -39,13 +39,19 @@ export class TextType extends Component {
       isAnswerPage,
       } = this.props;
     return(
-      <div className='questionCard'>
-        <h3 className={ isAnswerPage && this.checkAnswer() }>{ index } { objQuestion.question }</h3>
-        <input type="text"
-               value={ inputValue }
-               onChange={ this.onChange }
-               disabled={ isAnswerPage }
-        />
+      <div className='questionCard card'>
+        <div className='card-header'>
+          <h3 className={ isAnswerPage && this.checkAnswer() }>{ index }. { objQuestion.question }</h3>
+        </div>
+        <div className='text-left answerChoices'>
+          <input type="text"
+                 value={ inputValue }
+                 onChange={ this.onChange }
+                 disabled={ isAnswerPage }
+                 className='form-control'
+          />
+        </div>
+
       </div>
     )
   }

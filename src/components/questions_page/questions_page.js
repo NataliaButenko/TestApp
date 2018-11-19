@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { ModalWindow } from './modalWindow';
+import { ModalWindow } from './modalWindowComponent/modalWindow';
 import { connect } from "react-redux";
-import { Question } from "./question";
+import { Question } from "../sharedComponents/question";
 import { clearAnswers } from "../../store/actions/clearAnswers";
 
 export class QuestionsPage extends Component {
@@ -42,7 +42,7 @@ export class QuestionsPage extends Component {
     const { visibleModalWindow } = this.state;
     const { questions } = this.props;
     return (
-      <div className='wrapper'>
+      <div className='container'>
         <h1>Экзаминационны модуль на тему: JavaScript</h1>
         <div className='content'>
           {
@@ -58,9 +58,9 @@ export class QuestionsPage extends Component {
             })
           }
         </div>
-        <div className='submit_'>
-          <button className='repeatTest submit btn' onClick={ this.onRepeatTestButton }>Сбросить все</button>
-          <button className='submit btn' onClick={ this.onSubmitClick }>
+        <div>
+          <button className='btn btn-info' onClick={ this.onRepeatTestButton }>Сбросить все</button>
+          <button className='btn btn-info' onClick={ this.onSubmitClick }>
             Ответить
           </button>
         </div>
@@ -73,7 +73,7 @@ export class QuestionsPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return{
+  return {
     questions: state
   }
 };

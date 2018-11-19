@@ -12,8 +12,8 @@ export class ModalWindow extends Component {
       <div className='modalbackground' id ='modalWindow'>
         <div className='modalWindow'>
           <p>Каждый не отвеченный ответ считается неправильным, Вы уверены что хотите продолжить?</p>
-          <button className='btn-in-modal btn' onClick={ hideModalWindow }>Нет</button>
-          <Link to='/response-page'><button className='btn-in-modal btn'>Да</button></Link>
+          <button className='btn-in-modal btn btn-info' onClick={ hideModalWindow }>Нет</button>
+          <Link to='/response-page'><button className='btn-in-modal btn btn-info'>Да</button></Link>
         </div>
       </div>
     )

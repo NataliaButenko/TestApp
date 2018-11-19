@@ -5,20 +5,17 @@ import { CheckboxType } from "./questionTypeCheckbox";
 import { SelectType } from "./questionTypeSelect";
 import { TextType } from "./questionTypeText";
 import { QType } from "../../constants/questionTypes";
-import { setAnswerTypeRadio } from "../../store/actions/setAnswerTypeRadio";
-import { setAnswerTypeCheckbox } from "../../store/actions/setAnswerTypeCheckbox";
-import { setAnswerTypeSelect } from "../../store/actions/setAnswerTypeSelect";
-import { setAnswerTypeText } from "../../store/actions/setAnswerTypeText";
+import { setAnswerByType } from "../../store/actions/setAnswerByType";
 
 export class QuestionComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       componentTypes: {
-        [QType.CHECKBOX]: { component: CheckboxType, action: props.setAnswerTypeCheckbox },
-        [QType.RADIO]: { component: RadioType, action: props.setAnswerTypeRadio },
-        [QType.SELECT]: { component: SelectType, action: props.setAnswerTypeSelect },
-        [QType.TEXT]: { component: TextType, action: props.setAnswerTypeText }
+        [QType.CHECKBOX]: { component: CheckboxType, action: props.setAnswerByType },
+        [QType.RADIO]: { component: RadioType, action: props.setAnswerByType },
+        [QType.SELECT]: { component: SelectType, action: props.setAnswerByType },
+        [QType.TEXT]: { component: TextType, action: props.setAnswerByType }
       }
     };
   }
@@ -35,10 +32,7 @@ export class QuestionComponent extends Component {
 }
 
 const mapDispatchToProps = {
-  setAnswerTypeRadio,
-  setAnswerTypeCheckbox,
-  setAnswerTypeSelect,
-  setAnswerTypeText
+  setAnswerByType
 };
 
 export const Question = connect(null, mapDispatchToProps)(QuestionComponent);

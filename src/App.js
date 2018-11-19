@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { Questions } from "./questions_page/questions_page.js"
-import { Response } from "./response_page/response_page";
-import '../styles/App.css';
+import { Questions } from "./components/questions_page/questions_page.js"
+import { Response } from "./components/response_page/responsePage";
+import './App.css';
 
 class App extends Component {
   render() {

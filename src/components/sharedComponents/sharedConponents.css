@@ -1,0 +1,25 @@
+.input-checkbox, .input-radio {
+  margin-right: 10px;
+}
+
+.question {
+  color: black;
+}
+
+.questionTrue {
+  color: green;
+}
+
+.questionFalse {
+  color: red;
+}
+
+.card {
+  min-height: 220px;
+  margin: 30px 0px;
+}
+
+.answerChoices {
+  margin: 10px auto;
+  width: 600px;
+}
