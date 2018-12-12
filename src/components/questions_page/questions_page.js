@@ -39,6 +39,8 @@ export class QuestionsPage extends Component {
   };
 
   render() {
+    // let storage = localStorage.getItem('myData');
+    // console.log(storage);
     const { visibleModalWindow } = this.state;
     const { questions } = this.props;
     return (
