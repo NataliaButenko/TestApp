@@ -11,6 +11,10 @@ module.exports = {
     filename: "index_bundle.js"
   },
   devtool: 'source-map',
+  mode: "development",
+  resolve: {
+    extensions: [".js", ".ts", ".tsx"]
+},
   module: {
     rules: [
       {
@@ -20,6 +24,20 @@ module.exports = {
           loader: "babel-loader"
         },
       },
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+            {
+                loader: "ts-loader"
+            }
+        ]
+    },
+    {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader"
+    },
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader", "postcss-loader"]
