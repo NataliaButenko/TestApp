@@ -9,6 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
+import { NewQuestion } from "./sharedComponents/newQuestion";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 const styles = (theme?: any) =>
     createStyles({
@@ -50,6 +53,13 @@ const styles = (theme?: any) =>
         },
         cardActions: {
             height: "20%"
+        },
+        cardActionsWrapper: {
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between"
         }
     });
 
@@ -65,6 +75,7 @@ interface Props {
         cardWrapper: string;
         cardContent: string;
         cardActions: string;
+        cardActionsWrapper: string;
     };
     questions: [any],
     history: any;
@@ -83,14 +94,7 @@ const NewQuestionsPage = (props: Props) => {
     const { classes, questions, history } = props;
     const [activeStep, setActiveStep] = React.useState<number>(0);
     const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
-    const [steps, setSteps] = React.useState<[Step]>([{
-        id: 0,
-        type: "",
-        question: "",
-        answerChoices: [""],
-        rightAnswer: "",
-        answer: ""
-    }]);
+    const [steps, setSteps] = React.useState<[Step]>(questions);
 
     const getStepAnswer = (step: number) => {
       let currentStep: Step;
@@ -154,11 +158,6 @@ const NewQuestionsPage = (props: Props) => {
         history.push("/new_response-page")
     };
 
-    React.useEffect(() => {
-        setSteps(questions)
-        }, []
-    );
-
   return (
     <main className={classes.main}>
       <div>
@@ -184,38 +183,38 @@ const NewQuestionsPage = (props: Props) => {
                             <Typography className={classes.instructions}>{answer.question}</Typography>
                         </div>
                         <div>
-                            <ul>
-                                {
-                                    answer.answerChoices.map((ans: any, index: number) => {
-                                      return <li key={index}>{ans}</li>
-                                    })
-                                }
-                            </ul>
+                            {
+                                answer.type === "" ? null : (<NewQuestion type={answer.type} question={answer}/>)
+                            }
                         </div>
                     </CardContent>
                     <CardActions className={classes.cardActions}>
-                        <div>
-                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                                Back
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleNext}
-                                className={classes.button}
-                            >
-                                Next
+                        <div className={classes.cardActionsWrapper}>
+                            <Button onClick={handleBack} disabled={activeStep === 0}>
+                                <ArrowBackIcon />
                             </Button>
                             {activeStep !== steps.length &&
                             (completed[activeStep] ? (
-                                <Typography variant="caption" className={classes.completed}>
+                                <Typography
+                                    variant="caption"
+                                    className={classes.completed}
+                                >
                                     Step {activeStep + 1} already completed
                                 </Typography>
                             ) : (
-                                <Button variant="contained" color="primary" onClick={handleComplete}>
-                                    {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleComplete}
+                                >
+                                    {completedSteps() === totalSteps() - 1
+                                        ? "Finish"
+                                        : "Complete Step"}
                                 </Button>
                             ))}
+                            <Button onClick={handleNext}>
+                                <ArrowForwardIcon />
+                            </Button>
                         </div>
                     </CardActions>
                 </div>
