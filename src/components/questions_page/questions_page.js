@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ModalWindow } from './modalWindowComponent/modalWindow';
+import { ModalWindow } from '../modals/modalWindowComponent/modalWindow';
 import { connect } from "react-redux";
 import { Question } from "../sharedComponents/question";
 import { clearAnswers } from "../../store/actions/clearAnswers";
@@ -39,8 +39,6 @@ export class QuestionsPage extends Component {
   };
 
   render() {
-    // let storage = localStorage.getItem('myData');
-    // console.log(storage);
     const { visibleModalWindow } = this.state;
     const { questions } = this.props;
     return (

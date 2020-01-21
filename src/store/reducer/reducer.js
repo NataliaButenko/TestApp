@@ -3,39 +3,57 @@ import { CLEAR_ANSWERS } from "../actions/clearAnswers";
 import { QType } from "../../constants/questionTypes";
 import { SET_ANSWER_TYPE } from "../actions/setAnswerByType";
 
-const initialState = questions;
+const savedQuestions = JSON.parse(localStorage.getItem("questions") || "[]")
 
-export const reducer = (state = initialState, action) => {
+const initialState = () => {
+  if(savedQuestions.length === 0) {
+    return questions
+  } else {
+    return savedQuestions
+  }
+};
+
+const setSavedQuestions = (newQuestions) => {
+  localStorage.setItem("questions", JSON.stringify(newQuestions))
+}
+
+export const reducer = (state = initialState(), action) => {
   switch (action.type) {
     case SET_ANSWER_TYPE + QType.RADIO: {
-      return state.map(question => {
+      let newQuestions = state.map(question => {
         if(question.id === action.payload.questionId) {
           return { ...question, answer: action.payload.answer }
         } else {
           return question
         }
       })
+      setSavedQuestions(newQuestions);
+      return newQuestions
     }
     case SET_ANSWER_TYPE + QType.SELECT: {
-      return state.map(question => {
+      let newQuestions =  state.map(question => {
         if(question.id === action.payload.questionId) {
           return { ...question, answer: action.payload.answer }
         } else {
           return question
         }
       })
+      setSavedQuestions(newQuestions);
+      return newQuestions
     }
     case SET_ANSWER_TYPE + QType.TEXT: {
-      return state.map(question => {
+      let newQuestions = state.map(question => {
         if(question.id === action.payload.questionId) {
           return { ...question, answer: action.payload.answer }
         } else {
           return question
         }
       })
+      setSavedQuestions(newQuestions);
+      return newQuestions
     }
     case SET_ANSWER_TYPE + QType.CHECKBOX: {
-      return state.map(question => {
+      let newQuestions = state.map(question => {
         if(question.id === action.payload.questionId) {
           const answerIndex = question.answer.indexOf(action.payload.answer);
           let newAnswer = question.answer;
@@ -49,17 +67,22 @@ export const reducer = (state = initialState, action) => {
           return question
         }
       })
+      setSavedQuestions(newQuestions);
+      return newQuestions
     }
     case CLEAR_ANSWERS: {
-      return state.map(question => {
+      let newQuestions = state.map(question => {
         if(question.type === QType.CHECKBOX) {
           return { ...question, answer: [] }
         } else {
           return { ...question, answer: '' }
         }
       })
+      setSavedQuestions(newQuestions);
+      return newQuestions
     }
     default: {
+      setSavedQuestions(state);
       return state;
     }
   }

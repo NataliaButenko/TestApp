@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Redirect exact from='/' to='/questions-page'/>
+          <Redirect exact from='/' to='/new_questions-page'/>
           <Route exact path="/questions-page" component={ Questions } />
           <Route path="/response-page" component={ Response } />
           <Route path="/new_questions-page" component={ NewQuestions } />

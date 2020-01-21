@@ -21,14 +21,14 @@ interface Props {
         rightAnswer: string;
         answer: string;
     },
-    setAnswer: any;
+    setAnswer: (type: string, answer: string, questionId: number) => void;
 }
 
 
 const NewQuestionTypeTextComponent = (props: Props) => {
     const { classes, question, setAnswer } = props;
-    const onChange = (e: any) => {
-        setAnswer(question.type, e.target.value, question.id);
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAnswer(question.type, event.target.value, question.id);
     };
 
     return (

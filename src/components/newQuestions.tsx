@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { History } from 'history';
 import { connect } from "react-redux";
 import Button from '@material-ui/core/Button';
 import { createStyles, withStyles } from "@material-ui/core/styles"
@@ -77,8 +78,8 @@ interface Props {
         cardActions: string;
         cardActionsWrapper: string;
     };
-    questions: [any],
-    history: any;
+    questions: [Step],
+    history: History
 }
 
 interface Step {
@@ -97,12 +98,12 @@ const NewQuestionsPage = (props: Props) => {
     const [steps, setSteps] = React.useState<[Step]>(questions);
 
     const getStepAnswer = (step: number) => {
-      let currentStep: Step;
-      steps.forEach((answer: Step) => {
-        if(answer.id === step) {
-            currentStep = answer
-        }
-      });
+        let currentStep: Step;
+        questions.forEach((answer: Step) => {
+          if (answer.id === step) {
+            currentStep = answer;
+          }
+        });
         return currentStep;
     };
 
@@ -158,6 +159,15 @@ const NewQuestionsPage = (props: Props) => {
         history.push("/new_response-page")
     };
 
+    React.useEffect(() => {
+        const savedActiveStep = JSON.parse(localStorage.getItem("activeStep") || "0") as number
+        setActiveStep(savedActiveStep);
+    }, [])
+
+    React.useEffect(() => {
+        localStorage.setItem("activeStep", JSON.stringify(activeStep))
+    }, [activeStep])
+
   return (
     <main className={classes.main}>
       <div>
@@ -199,7 +209,7 @@ const NewQuestionsPage = (props: Props) => {
                                     variant="caption"
                                     className={classes.completed}
                                 >
-                                    Step {activeStep + 1} already completed
+                                    Question {activeStep + 1} has already been
                                 </Typography>
                             ) : (
                                 <Button
@@ -242,7 +252,6 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  // clearAnswers
 };
 
 export const NewQuestions = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NewQuestionsPage));
