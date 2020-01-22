@@ -13,6 +13,8 @@ import StepButton from '@material-ui/core/StepButton';
 import { NewQuestion } from "./sharedComponents/newQuestion";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import { IQuestion } from "../utils/interfaces";
+import { clearAnswers } from "../store/actions/clearAnswers";
 
 const styles = (theme?: any) =>
     createStyles({
@@ -25,7 +27,10 @@ const styles = (theme?: any) =>
           display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+             "& button:focus" : {
+                outline: 0
+             }
         },
         root: {
             width: '100%',
@@ -78,28 +83,20 @@ interface Props {
         cardActions: string;
         cardActionsWrapper: string;
     };
-    questions: [Step],
-    history: History
-}
-
-interface Step {
-    id: number;
-    type: string;
-    question: string;
-    answerChoices: [string];
-    rightAnswer: string;
-    answer: string;
+    questions: IQuestion[],
+    history: History,
+    clearAnswers: () => void
 }
 
 const NewQuestionsPage = (props: Props) => {
-    const { classes, questions, history } = props;
+    const { classes, questions, history, clearAnswers } = props;
     const [activeStep, setActiveStep] = React.useState<number>(0);
     const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
-    const [steps, setSteps] = React.useState<[Step]>(questions);
+    const [steps, setSteps] = React.useState<IQuestion[]>(questions);
 
     const getStepAnswer = (step: number) => {
-        let currentStep: Step;
-        questions.forEach((answer: Step) => {
+        let currentStep: IQuestion;
+        questions.forEach((answer: IQuestion) => {
           if (answer.id === step) {
             currentStep = answer;
           }
@@ -107,7 +104,7 @@ const NewQuestionsPage = (props: Props) => {
         return currentStep;
     };
 
-    const answer: Step = getStepAnswer(activeStep);
+    const answer: IQuestion = getStepAnswer(activeStep);
 
     const totalSteps = () => {
         return steps.length;
@@ -151,6 +148,10 @@ const NewQuestionsPage = (props: Props) => {
     };
 
     const handleReset = () => {
+        localStorage.removeItem("activeStep");
+        localStorage.removeItem("completed");
+        localStorage.removeItem("questions");
+        clearAnswers();
         setActiveStep(0);
         setCompleted({});
     };
@@ -160,13 +161,18 @@ const NewQuestionsPage = (props: Props) => {
     };
 
     React.useEffect(() => {
-        const savedActiveStep = JSON.parse(localStorage.getItem("activeStep") || "0") as number
+        const savedActiveStep = JSON.parse(
+            localStorage.getItem("activeStep") || "0"
+        ) as number;
         setActiveStep(savedActiveStep);
-    }, [])
-
+        const saveCompleted = JSON.parse(localStorage.getItem("completed") || "{}");
+        setCompleted(saveCompleted);
+    }, []);
+    
     React.useEffect(() => {
-        localStorage.setItem("activeStep", JSON.stringify(activeStep))
-    }, [activeStep])
+        localStorage.setItem("activeStep", JSON.stringify(activeStep));
+        localStorage.setItem("completed", JSON.stringify(completed));
+    }, [activeStep, completed]);
 
   return (
     <main className={classes.main}>
@@ -219,7 +225,7 @@ const NewQuestionsPage = (props: Props) => {
                                 >
                                     {completedSteps() === totalSteps() - 1
                                         ? "Finish"
-                                        : "Complete Step"}
+                                        : "Reply"}
                                 </Button>
                             ))}
                             <Button onClick={handleNext}>
@@ -252,6 +258,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
+    clearAnswers
 };
 
 export const NewQuestions = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NewQuestionsPage));

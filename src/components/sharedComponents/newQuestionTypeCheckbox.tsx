@@ -43,7 +43,7 @@ const NewQuestionTypeCheckboxComponent = (props: Props) => {
                             value={ans}
                             control={
                                 <Checkbox
-                                    // checked={ question.answer && question.answer.includes(ans) }
+                                    checked={ question.answer && question.answer.includes(ans) }
                                     onChange={onChange}
                                     value={ans}
                                     color="primary"
