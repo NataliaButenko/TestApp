@@ -1,18 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import { History } from "history";
-import { createStyles, withStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles, Theme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
-import { IQuestion } from "../utils/interfaces";
-import { clearAnswers } from "../store/actions/clearAnswers";
+import { IQuestion } from "../../utils/interfaces";
+import { clearAnswers } from "../../store/actions/clearAnswers";
 
-const styles = (theme?: any) =>
+const styles = (theme?: Theme) =>
   createStyles({
     card: {
       width: "500px",
@@ -35,8 +34,7 @@ const styles = (theme?: any) =>
       marginBottom: theme.spacing(1)
     },
     result: {
-      color: "#1cb333",
-      fontSize: "30px"
+      color: "#1cb333"
     },
     cardContent: {
       height: "80%",
@@ -77,33 +75,36 @@ interface Props {
     cardActions: string;
   };
   questions: IQuestion[];
-    clearAnswers: () => void;
+  clearAnswers: () => void;
   history: History;
 }
 
-const NewResponsePage = (props: Props) => {
+const ResponsePage = (props: Props) => {
   const { classes, history, questions, clearAnswers } = props;
   const [completed, setCompleted] = React.useState(0);
 
   const checkCorrectAnswer = () => {
-    let correctAnswer: number = 0
+    let correctAnswer: number = 0;
     questions.map((question) => {
-      if(question.answer === question.rightAnswer) {
+      if (question.answer === question.rightAnswer) {
         correctAnswer = correctAnswer + 1;
-      } else if (Array.isArray(question.answer) && question.answer.length === question.rightAnswer.length){
+      } else if (
+        Array.isArray(question.answer) &&
+        question.answer.length === question.rightAnswer.length
+      ) {
         let tmp = question.answer.every((ques: string) => {
-            return question.rightAnswer.includes(ques)
-        })
-        if(tmp) {
-            correctAnswer = correctAnswer + 1; 
+          return question.rightAnswer.includes(ques);
+        });
+        if (tmp) {
+          correctAnswer = correctAnswer + 1;
         }
-      } 
-    })
-    return (correctAnswer * 100)/questions.length;
+      }
+    });
+    return (correctAnswer * 100) / questions.length;
   };
 
   React.useEffect(() => {
-      const progressNum = checkCorrectAnswer();
+    const progressNum = checkCorrectAnswer();
     function progress() {
       setCompleted((oldCompleted) => {
         if (oldCompleted === progressNum) {
@@ -125,7 +126,7 @@ const NewResponsePage = (props: Props) => {
     localStorage.removeItem("completed");
     localStorage.removeItem("questions");
     clearAnswers();
-    history.push("/new_questions-page");
+    history.push("/questions-page");
   };
 
   return (
@@ -133,10 +134,9 @@ const NewResponsePage = (props: Props) => {
       <div>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
-            <Typography variant="h3">
-                Your result
-            </Typography>
+            <Typography variant="h6">Your result</Typography>
             <Typography
+              variant="h6"
               className={`${classes.instructions} ${
                 completed === checkCorrectAnswer() ? classes.result : ""
               }`}
@@ -164,10 +164,10 @@ const mapStateToProps = (state: IQuestion[]) => {
   };
 };
 const mapDispatchToProps = {
-    clearAnswers
+  clearAnswers
 };
 
-export const NewResponse = connect(
+export const Response = connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(NewResponsePage));
+)(withStyles(styles)(ResponsePage));

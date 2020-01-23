@@ -1,7 +1,7 @@
-export const CLEAR_ANSWERS = 'clear_answers';
+export const CLEAR_ANSWERS = "clear_answers";
 
 export const clearAnswers = () => {
-  return{
+  return {
     type: CLEAR_ANSWERS
   };
 };
